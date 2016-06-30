@@ -1,0 +1,52 @@
+{
+  "name": "cherry-wip",
+  "private": true,
+  "scripts": {
+    "start": "meteor run --settings settings.json",
+    "unit-test": "mocha ./tests/unit-tests --compilers js:babel-register"
+  },
+  "dependencies": {
+    "apollo-client": "^1.0.0",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.15.2",
+    "classnames": "^2.2.5",
+    "eslint-plugin-graphql": "^0.4.3",
+    "express": "^4.14.0",
+    "graphql": "^0.9.1",
+    "graphql-server-express": "^0.6.0",
+    "graphql-subscriptions": "^0.3.1",
+    "graphql-tag": "^2.0.0",
+    "graphql-tools": "^0.11.0",
+    "graphql-typings": "0.0.1-beta-2",
+    "immutability-helper": "^2.1.2",
+    "jsonfile": "^2.4.0",
+    "meteor-node-stubs": "~0.2.6",
+    "moment": "^2.15.0",
+    "react": "^15.1.0",
+    "react-addons-pure-render-mixin": "^15.1.0",
+    "react-apollo": "^1.0.0",
+    "react-dom": "^15.1.0",
+    "react-komposer": "^1.13.1",
+    "recompose": "^0.22.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
+    "subscriptions-transport-ws": "^0.5.5-alpha.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "babel-preset-meteor": "^6.11.1",
+    "babel-preset-react": "^6.11.1",
+    "babel-register": "^6.9.0",
+    "chai": "^3.5.0",
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-import-resolver-meteor": "^0.2.4",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-react": "^5.2.2",
+    "mocha": "^2.5.3",
+    "testdouble": "^1.4.3"
+  }
+}

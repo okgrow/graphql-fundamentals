@@ -1,0 +1,163 @@
+html, * {
+  box-sizing: border-box;
+}
+
+body {
+   max-width: 500px;
+   margin: 0 auto;
+   padding: 10px;
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+   font-weight: 300;
+}
+
+h1,
+h2,
+h3 {
+  margin: 20px 0 10px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+a {
+  color: #3385bf;
+}
+
+button {
+  display: inline-block;
+  float: right;
+  margin: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  background-color: #27ae60;
+}
+
+button:hover {
+  background-color: #2ecc71;
+}
+
+button:disabled {
+  background: #999;
+}
+
+.orange {
+  background-color: #f39c12;
+}
+.orange:hover {
+  background-color: #ffa413;
+}
+
+.red {
+  background-color: #a4362b;
+}
+.red:hover {
+  background-color: #c03f32;
+}
+
+
+nav {
+  margin: 15px 0;
+  border-radius: 2px;
+  background-color: #E74C3C;
+}
+
+nav>div {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  border-right: 1px solid #bf3f32;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+nav a:hover {
+  background-color: #bf3f32;
+}
+
+.accounts-ui-react {
+  float: right;
+  font-size: 12px;
+  padding: 7px;
+}
+
+form:not(.accounts-ui) {
+  position: relative;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+form:not(.accounts-ui) input {
+  display: inline-block;
+  width: 79%;
+  height: 40px;
+  margin: 0;
+  padding-left: 10px;
+  border: 1px solid #27ae60;
+  border-radius: 5px;
+}
+form:not(.accounts-ui) input:last-child {
+  width: 100%;
+}
+form:not(.accounts-ui) button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 5px;
+}
+
+form:not(.accounts-ui) select {
+  position: relative;
+  display: inline-block;
+  width: 79%;
+  height: 40px;
+  margin-top: 5px;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid #27ae60;
+  border-radius: 0;
+  outline: none;
+  background: white;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul li {
+  padding: 7px 0;
+  line-height: 1.5;
+}
+
+li.active > div:first-child {
+  font-weight: 600;
+}
+
+ul li > div:first-child {
+  padding-left: 0;
+  color: #000;
+  font-size: 16px;
+}
+ul li > div {
+  padding-left: 10px;
+  color: #666;
+  font-size: 11px;
+}
+
+.error {
+  color: red;
+}
+
+
+.accounts-ui {
+  border: none;
+}
