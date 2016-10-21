@@ -50,8 +50,13 @@ type Query {
   pomodoros: [Pomodoro]
 }
 
+type Mutation {
+  deletePomodoro(_id: String!): ID
+}
+
 schema {
   query: Query
+  mutation: Mutation
 }
 `];
 
@@ -81,6 +86,20 @@ export const resolvers = {
       if (!context) return [];
       const { userId } = context;
       return await Trello.getCardsOnList(userId, id);
+    },
+  },
+
+  Mutation: {
+    async deletePomodoro(root, { _id }, { userId }) {
+      if (! userId) {
+        throw new Error('Must be logged in to delete a Pomodoro.');
+      }
+      const pomodoro = await PomodorosCollection.findOne({ _id });
+      if (pomodoro.userId !== userId) {
+        throw new Error('User does not own this pomodoro.');
+      }
+      await PomodorosCollection.remove({ _id });
+      return _id;
     },
   },
 
