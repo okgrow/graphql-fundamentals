@@ -19,6 +19,12 @@ type Card {
   name: String!
 }
 
+type Pomodoro {
+  _id: ID!
+  goal: String!
+  startDate: String!
+}
+
 # Meteor user, which includes some of the user's Trello user info
 type User {
   # This is the Meteor ID in MongoDB
@@ -38,6 +44,7 @@ type Query {
   user: User
   trelloBoards: [Board]
   trelloCardsFromList(id: String!): [Card]
+  pomodoros: [Pomodoro]
 }
 
 schema {
@@ -54,6 +61,13 @@ export const resolvers = {
         return await Meteor.users.findOne(context.userId);
       }
       return null;
+    },
+
+    async pomodoros(root, args, context) {
+      if (!context) return [];
+      const { userId } = context;
+      // only return logged-in user's pomodoros
+      return await PomodorosCollection.find({ userId }, { sort: { startDate: -1 } }).fetch();
     },
 
     async trelloBoards(root, args, { userId }) {
