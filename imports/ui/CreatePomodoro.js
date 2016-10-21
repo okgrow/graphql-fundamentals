@@ -1,4 +1,8 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { graphql, optimisticResponse } from 'react-apollo-helpers';
+import { compose } from 'recompose';
+import { Random } from 'meteor/random';
 import CardSelector from './CardSelector';
 
 // Hardcoding this for the class.
@@ -45,11 +49,7 @@ class CreatePomodoro extends React.Component {
   }
 
   handleSubmit(e) {
-    /**
-    * change the following to make the mutation available here
-    * as `createPomodoro`
-    */
-    const createPomodoro = () => {};
+    const { createPomodoro } = this.props;
 
     // Prevent the browser from handling the form
     e.preventDefault();
@@ -106,7 +106,39 @@ class CreatePomodoro extends React.Component {
 }
 
 // HOCs
+const createPomodoro = graphql(gql`
+    mutation createPomodoro ($goal: String!, $cardId: String, $cardName: String ){
+      createPomodoro (
+        goal: $goal
+        cardId: $cardId
+        cardName: $cardName
+      ) {
+        _id
+        goal
+        startDate
+        cardId
+        cardName
+        trelloMembersOnCard {
+          fullName
+        }
+      }
+    }
+  `,
+  {
+    options: {
+      updateQueries: {
+        myPomodoros: (prev, newPomodoro) => ({
+          pomodoros: [newPomodoro, ...prev.pomodoros],
+        }),
+      },
+      optimisticResponse: optimisticResponse({
+        __typename: 'Pomodoro',
+        _id: `${Random.id()}`,
+        startDate: new Date().toISOString(),
+        trelloMembersOnCard: [],
+      }),
+    },
+  }
+);
 
-/* createPomodoro mutation & HOC go here */
-
-export default CreatePomodoro;
+export default compose(createPomodoro)(CreatePomodoro);
