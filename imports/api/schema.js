@@ -6,6 +6,12 @@ export const typeDefs = [`
 type Board {
   id: String!
   name: String!
+  lists: [List]
+}
+
+type List {
+  id: String!
+  name: String!
 }
 
 type Card {
@@ -63,5 +69,11 @@ export const resolvers = {
 
   User: {
     trello: user => (user ? user.services.trello : { id: '' }),
+  },
+
+  Board: {
+    async lists({ id }, args, { userId }) {
+      return await Trello.getLists(userId, id);
+    },
   },
 };
