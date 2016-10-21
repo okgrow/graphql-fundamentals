@@ -3,6 +3,11 @@ import PomodorosCollection from './PomodorosCollection';
 import Trello from '../lib/trello';
 
 export const typeDefs = [`
+type Board {
+  id: String!
+  name: String!
+}
+
 type Card {
   id: String!
   name: String!
@@ -25,6 +30,7 @@ type TrelloMember {
 
 type Query {
   user: User
+  trelloBoards: [Board]
   trelloCardsFromList(id: String!): [Card]
 }
 
@@ -42,6 +48,10 @@ export const resolvers = {
         return await Meteor.users.findOne(context.userId);
       }
       return null;
+    },
+
+    async trelloBoards(root, args, { userId }) {
+      return await Trello.getBoards(userId);
     },
 
     async trelloCardsFromList(root, { id }, context) {
