@@ -23,6 +23,9 @@ type Pomodoro {
   _id: ID!
   goal: String!
   startDate: String!
+  cardId: String
+  cardName: String
+  trelloMembersOnCard: [TrelloMember]
 }
 
 # Meteor user, which includes some of the user's Trello user info
@@ -88,6 +91,13 @@ export const resolvers = {
   Board: {
     async lists({ id }, args, { userId }) {
       return await Trello.getLists(userId, id);
+    },
+  },
+
+  Pomodoro: {
+    async trelloMembersOnCard({ cardId }, _, { userId }) {
+      if (!cardId) return [];
+      return await Trello.getCardMembers(userId, cardId);
     },
   },
 };
