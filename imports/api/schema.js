@@ -51,6 +51,7 @@ type Query {
 }
 
 type Mutation {
+  createPomodoro(goal: String!, cardId: String, cardName: String): Pomodoro
   deletePomodoro(_id: String!): ID
 }
 
@@ -90,6 +91,18 @@ export const resolvers = {
   },
 
   Mutation: {
+    async createPomodoro(root, pomodoro, { userId }) {
+      if (! userId) {
+        throw new Error('Must be logged in to create a Pomodoro.');
+      }
+      Object.assign(pomodoro, {
+        userId,
+        startDate: new Date().toISOString(),
+      });
+      const _id = await PomodorosCollection.insert(pomodoro);
+      return await PomodorosCollection.findOne({ _id });
+    },
+
     async deletePomodoro(root, { _id }, { userId }) {
       if (! userId) {
         throw new Error('Must be logged in to delete a Pomodoro.');
