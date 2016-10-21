@@ -4,7 +4,9 @@ import React from 'react';
 import Pomodoro from './Pomodoro';
 import CreatePomodoro from './CreatePomodoro';
 
+import gql from 'graphql-tag';
 import { compose } from 'recompose';
+import { graphql } from 'react-apollo-helpers';
 
 const meteorHoc = fn =>
   component => createContainer(fn, component);
@@ -16,7 +18,7 @@ const meteorHoc = fn =>
 const MyPomodoros = (props) => {
   const { isLoggedIn } = props;
   // change the following to populate the query result as `pomodoros` in the app
-  const pomodoros = null;
+  const pomodoros = props.myPomodoros.pomodoros;
 
   // display only if logged-in
   return isLoggedIn &&
@@ -45,4 +47,18 @@ MyPomodoros.propTypes = {
 
 const isLoggedIn = meteorHoc(() => ({ isLoggedIn: !!Meteor.userId() }));
 
-export default compose(isLoggedIn)(MyPomodoros);
+const myPomodoros = graphql(gql`
+  query myPomodoros {
+    pomodoros {
+      _id
+      goal
+      startDate
+      cardName
+      trelloMembersOnCard {
+        fullName
+      }
+    }
+  }
+`);
+
+export default compose(isLoggedIn, myPomodoros)(MyPomodoros);
