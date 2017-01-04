@@ -2,6 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { render } from 'react-dom';
 
+// get graphql schema for linting (dev only)
+import './eslintGraphqlSchema';
+
 // styles
 import '../ui/main.css';
 
@@ -9,7 +12,7 @@ import '../ui/main.css';
 import ApolloClient from 'apollo-client';
 import { meteorClientConfig } from 'meteor/apollo';
 import { ApolloProvider } from 'react-apollo';
-const client = new ApolloClient(meteorClientConfig());
+export const client = new ApolloClient(meteorClientConfig());
 
 import App from '../ui/App';
 
