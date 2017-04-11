@@ -1,5 +1,7 @@
 import React from 'react';
 import { isActive, formatTime } from '../lib/pomodoroTimer';
+import { gql, graphql } from 'react-apollo';
+import { compose } from 'recompose';
 
 class Pomodoro extends React.Component {
   constructor() {
@@ -57,12 +59,9 @@ class Pomodoro extends React.Component {
   }
 
   render() {
-    /**
-    * change the following to make the mutation available here
-    * as `deletePomodoro`
-    */
-    const deletePomodoro = () => {};
+    const deletePomodoro = this.props.mutate;
     const { pomodoro } = this.props;
+
     return (
       <li
         key={pomodoro._id}
@@ -75,7 +74,7 @@ class Pomodoro extends React.Component {
           <button
             className="red"
             onClick={() => {
-              deletePomodoro(/* TODO */);
+              deletePomodoro({ variables: { _id: pomodoro._id } });
             }}
           >
             Delete
@@ -93,10 +92,28 @@ Pomodoro.propTypes = {
     goal: React.PropTypes.string,
     startDate: React.PropTypes.string,
   }),
+  mutate: React.PropTypes.func,
+};
+
+// mutation setup
+const mutation = gql`
+  mutation deletePomodoro ($_id: String!){
+    deletePomodoro (
+      _id: $_id,
+    )
+  }
+`;
+
+// mutation config setup
+const mutationConfig = {
+  options: {
+    refetchQueries: [
+      'myPomodoros',
+    ],
+  },
 };
 
 // HOCs
+const deletePomodoro = graphql(mutation, mutationConfig);
 
-/* deletePomodoro mutation & HOC go here */
-
-export default Pomodoro;
+export default compose(deletePomodoro)(Pomodoro);
