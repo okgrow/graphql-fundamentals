@@ -1,4 +1,6 @@
 import React from 'react';
+import { gql, graphql } from 'react-apollo';
+import { compose } from 'recompose';
 import CardSelector from './CardSelector';
 
 // Hardcoding this for the class.
@@ -61,7 +63,9 @@ class CreatePomodoro extends React.Component {
       cardName: this.state.card.id ? this.state.card.name : '',
     };
 
-    // TODO: Call the mutation to insert newPomodoro
+    this.props.mutate({
+      variables: newPomodoro,
+    });
 
     // Clear the input
     this.setState({ goalValue: '' });
@@ -101,8 +105,35 @@ class CreatePomodoro extends React.Component {
   }
 }
 
+// mutation setup
+const mutation = gql`
+  mutation createPomodoro ($goal: String!, $cardId: String, $cardName: String ){
+    createPomodoro (
+      goal: $goal
+      cardId: $cardId
+      cardName: $cardName
+    ) {
+      _id
+      goal
+      startDate
+      cardId
+      cardName
+      trelloMembersOnCard {
+        fullName
+      }
+    }
+  }
+`;
+
+const mutationConfig = {
+  options: {
+    refetchQueries: [
+      'myPomodoros',
+    ],
+  },
+};
+
 // HOCs
+const createPomodoro = graphql(mutation, mutationConfig);
 
-/* createPomodoro mutation & HOC go here */
-
-export default CreatePomodoro;
+export default compose(createPomodoro)(CreatePomodoro);
