@@ -1,0 +1,35 @@
+{
+  "name": "training-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-cache-inmemory": "^0.2.0-rc.1",
+    "apollo-client": "^2.0.0-rc.3",
+    "apollo-fetch": "^0.6.0",
+    "apollo-link": "^0.7.0",
+    "apollo-link-http": "^0.7.0",
+    "react": "^16.0.0",
+    "react-apollo": "^1.4.16",
+    "react-autocomplete": "^1.7.1",
+    "react-dom": "^16.0.0",
+    "react-fontawesome": "^1.6.1",
+    "react-google-maps": "^7.2.0",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2",
+    "react-scripts": "1.0.11",
+    "recompose": "^0.24.0",
+    "styled-components": "^2.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "prettier": "^1.7.0"
+  },
+  "proxy": "http://localhost:8080"
+}
