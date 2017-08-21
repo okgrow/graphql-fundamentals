@@ -1,4 +1,6 @@
 import { withState, withHandlers, flattenProp, compose } from 'recompose';
+import { graphql } from 'react-apollo';
+import GET_PLACES_QUERY from './getPlaces.query';
 
 export const withStateEnhancer = withState('state', 'setState', props => ({
   places: props.defaultPlaces || [],
@@ -60,6 +62,14 @@ export const toggleVisited = ({ setState }) => id => {
     };
   });
 };
+
+export const withPlacesData = graphql(GET_PLACES_QUERY, {
+  props: ({ data }) => ({
+    placesLoading: data.loading,
+    placesError: data.error,
+    places: data.places || [],
+  }),
+});
 
 export default compose(
   withStateEnhancer,
