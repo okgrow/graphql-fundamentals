@@ -3,8 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import fetch from 'node-fetch';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import typeDefs from './typeDefs';
+import mocks from './mocks';
 
 const { TOKEN } = process.env;
 const PORT = 8080;
@@ -15,6 +16,8 @@ server.use(cors());
 server.use(bodyParser.json());
 
 const schema = makeExecutableSchema({ typeDefs });
+
+addMockFunctionsToSchema({ schema, mocks });
 
 server.use(
   '/graphql',

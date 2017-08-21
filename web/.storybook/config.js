@@ -6,6 +6,7 @@ import { MemoryRouter } from 'react-router';
 import apolloStorybookDecorator from 'apollo-storybook-decorator';
 
 import typeDefs from '../../api/src/typeDefs';
+import mocks from '../../api/src/mocks';
 
 import '../src/index.css';
 
@@ -19,7 +20,8 @@ addDecorator(story =>
 
 addDecorator(
   apolloStorybookDecorator({
-    typeDefs
+    typeDefs,
+    mocks,
   })
 );
 
