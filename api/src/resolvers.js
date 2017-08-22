@@ -43,6 +43,18 @@ const resolvers = {
 
       return newPlace;
     },
+    updatePlace: async (_, { input: { id, visited } }, { Place }) => {
+      const doc = await Place.findOneById(id);
+
+      await Place.updateById(id, {
+        ...doc,
+        visited,
+      });
+
+      const updatedPlace = await Place.findOneById(id);
+
+      return updatedPlace;
+    },
   },
 };
 
