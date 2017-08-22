@@ -2,6 +2,11 @@ import fetch from 'node-fetch';
 
 const resolvers = {
   Query: {
+    places: async (_, args, { Place }) => {
+      const places = await Place.all({});
+
+      return places;
+    },
     suggestions: async (_, args, context) => {
       // console.log(args);
       // console.log(context);
