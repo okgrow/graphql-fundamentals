@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import GET_PLACES_QUERY from './getPlaces.query';
 import RUN_SEARCH_QUERY from './runSearch.query';
 import CREATE_PLACE_MUTATION from './createPlace.mutation';
+import UPDATE_PLACE_MUTATION from './updatePlace.mutation';
 
 export const withStateEnhancer = withState('state', 'setState', props => ({
   inputValue: '',
@@ -13,6 +14,10 @@ export const withCreatePlaceMutation = graphql(CREATE_PLACE_MUTATION, {
   options: props => ({
     refetchQueries: ['getPlaces'],
   }),
+});
+
+export const withUpdatePlaceMutation = graphql(UPDATE_PLACE_MUTATION, {
+  name: 'updatePlaceMutation',
 });
 
 export const addPlace = ({ createPlaceMutation }) => async placeId => {
@@ -30,22 +35,12 @@ export const editInput = ({ setState }) => async event => {
   }));
 };
 
-export const toggleVisited = ({ setState }) => id => {
-  // setState(state => {
-  //   const newPlaces = state.places.map(place => {
-  //     if (place.id !== id) {
-  //       return place;
-  //     }
-  //     return {
-  //       ...place,
-  //       visited: !place.visited,
-  //     };
-  //   });
-  //   return {
-  //     ...state,
-  //     places: newPlaces,
-  //   };
-  // });
+export const toggleVisited = ({ updatePlaceMutation, places }) => async id => {
+  const placeToVisit = places.find(place => place.id === id);
+
+  await updatePlaceMutation({
+    variables: { input: { id, visited: !placeToVisit.visited } },
+  });
 };
 
 export const withPlacesData = graphql(GET_PLACES_QUERY, {
@@ -70,6 +65,7 @@ export const withSuggestionsData = graphql(RUN_SEARCH_QUERY, {
 export default compose(
   withPlacesData,
   withCreatePlaceMutation,
+  withUpdatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
