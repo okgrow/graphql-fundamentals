@@ -1,11 +1,11 @@
 import { withState, withHandlers, flattenProp, compose } from 'recompose';
 import { graphql } from 'react-apollo';
 import GET_PLACES_QUERY from './getPlaces.query';
+import RUN_SEARCH_QUERY from './runSearch.query';
 
 export const withStateEnhancer = withState('state', 'setState', props => ({
   places: props.defaultPlaces || [],
   inputValue: '',
-  suggestions: [],
 }));
 
 export const addPlace = ({ setState }) => async placeId => {
@@ -32,14 +32,6 @@ export const editInput = ({ setState }) => async event => {
   setState(state => ({
     ...state,
     inputValue: value,
-  }));
-
-  const response = await fetch(`/api/autocomplete?name=${value}`);
-  const suggestions = await response.json();
-
-  setState(state => ({
-    ...state,
-    suggestions,
   }));
 };
 
@@ -68,6 +60,17 @@ export const withPlacesData = graphql(GET_PLACES_QUERY, {
     placesLoading: data.loading,
     placesError: data.error,
     places: data.places || [],
+  }),
+});
+
+export const withSuggestionsData = graphql(RUN_SEARCH_QUERY, {
+  options: props => ({
+    variables: { name: props.inputValue },
+  }),
+  props: ({ data }) => ({
+    suggestionsLoading: data.loading,
+    suggestionsError: data.error,
+    suggestions: data.suggestions,
   }),
 });
 
