@@ -11,6 +11,11 @@ export default `
     placeId: ID!
   }
 
+  input UpdatePlaceInput {
+    id: ID!
+    visited: Boolean!
+  }
+
   type Query {
     places: [Place]
     suggestions(name: String): [Place]
@@ -18,5 +23,6 @@ export default `
 
   type Mutation {
     createPlace(input: CreatePlaceInput!): Place!
+    updatePlace(input: UpdatePlaceInput!): Place!
   }
 `;
