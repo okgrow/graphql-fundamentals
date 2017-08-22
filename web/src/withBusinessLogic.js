@@ -4,26 +4,23 @@ import GET_PLACES_QUERY from './getPlaces.query';
 import RUN_SEARCH_QUERY from './runSearch.query';
 
 export const withStateEnhancer = withState('state', 'setState', props => ({
-  places: props.defaultPlaces || [],
   inputValue: '',
 }));
 
 export const addPlace = ({ setState }) => async placeId => {
-  const response = await fetch(`/api/details?id=${placeId}`);
-
-  const newPlace = await response.json();
-
-  setState(state => ({
-    ...state,
-    inputValue: '',
-    places: [
-      ...state.places,
-      {
-        ...newPlace,
-        visited: false,
-      },
-    ],
-  }));
+  // const response = await fetch(`/api/details?id=${placeId}`);
+  // const newPlace = await response.json();
+  // setState(state => ({
+  //   ...state,
+  //   inputValue: '',
+  //   places: [
+  //     ...state.places,
+  //     {
+  //       ...newPlace,
+  //       visited: false,
+  //     },
+  //   ],
+  // }));
 };
 
 export const editInput = ({ setState }) => async event => {
@@ -36,23 +33,21 @@ export const editInput = ({ setState }) => async event => {
 };
 
 export const toggleVisited = ({ setState }) => id => {
-  setState(state => {
-    const newPlaces = state.places.map(place => {
-      if (place.id !== id) {
-        return place;
-      }
-
-      return {
-        ...place,
-        visited: !place.visited,
-      };
-    });
-
-    return {
-      ...state,
-      places: newPlaces,
-    };
-  });
+  // setState(state => {
+  //   const newPlaces = state.places.map(place => {
+  //     if (place.id !== id) {
+  //       return place;
+  //     }
+  //     return {
+  //       ...place,
+  //       visited: !place.visited,
+  //     };
+  //   });
+  //   return {
+  //     ...state,
+  //     places: newPlaces,
+  //   };
+  // });
 };
 
 export const withPlacesData = graphql(GET_PLACES_QUERY, {
@@ -75,11 +70,13 @@ export const withSuggestionsData = graphql(RUN_SEARCH_QUERY, {
 });
 
 export default compose(
+  withPlacesData,
   withStateEnhancer,
   withHandlers({
     addPlace,
     editInput,
     toggleVisited,
   }),
-  flattenProp('state')
+  flattenProp('state'),
+  withSuggestionsData
 );
