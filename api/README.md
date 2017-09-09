@@ -4,6 +4,9 @@
 # install the dependencies
 yarn
 
-# run the API server
-yarn start
+# start the database
+yarn start:db
+
+# start the app
+yarn start:app
 ```
