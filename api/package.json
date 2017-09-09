@@ -4,7 +4,9 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "start": "cross-env TOKEN=AIzaSyAtS6PtnF5DfGOQYj1h6f7AyPyvyI3KulA nodemon ./src/server.js --exec babel-node -e js",
+    "start:db": "mkdir -p db && mongod --dbpath=db --port 27017",
+    "start:app":
+      "cross-env TOKEN=AIzaSyAtS6PtnF5DfGOQYj1h6f7AyPyvyI3KulA nodemon ./src/server.js --exec babel-node -e js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -35,6 +37,7 @@
     "faker": "^4.1.0",
     "graphql": "^0.10.5",
     "graphql-tools": "^1.2.1",
+    "mongodb": "^2.2.31",
     "node-fetch": "^1.7.2"
   }
 }
