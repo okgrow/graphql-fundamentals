@@ -35,7 +35,30 @@ export const editInput = ({ setInputValue }) => async event => {
   setInputValue(value);
 };
 
-export const toggleVisited = props => id => {};
+export const withUpdatePlaceMutation = graphql(
+  gql`
+    mutation updatePlace($input: UpdatePlaceInput!) {
+      updatePlace(input: $input) {
+        id
+        name
+        visited
+        longitude
+        latitude
+      }
+    }
+  `,
+  {
+    name: 'updatePlaceMutation',
+  }
+);
+
+export const toggleVisited = ({ updatePlaceMutation, places }) => async id => {
+  const placeToVisit = places.find(place => place.id === id);
+
+  await updatePlaceMutation({
+    variables: { input: { id, visited: !placeToVisit.visited } },
+  });
+};
 
 export const withPlacesData = graphql(
   gql`
@@ -82,6 +105,7 @@ export const withSuggestionsData = graphql(
 export default compose(
   withPlacesData,
   withCreatePlaceMutation,
+  withUpdatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
