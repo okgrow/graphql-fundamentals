@@ -1,65 +1,16 @@
-import { withState, withHandlers, flattenProp, compose } from 'recompose';
+import { withState, withHandlers, compose } from 'recompose';
 
-export const withStateEnhancer = withState('state', 'setState', props => ({
-  places: props.defaultPlaces || [],
-  inputValue: '',
-  suggestions: [],
-}));
+export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
-export const addPlace = ({ setState }) => async placeId => {
-  const response = await fetch(`/api/details?id=${placeId}`);
+export const addPlace = props => async placeId => {};
 
-  const newPlace = await response.json();
-
-  setState(state => ({
-    ...state,
-    inputValue: '',
-    places: [
-      ...state.places,
-      {
-        ...newPlace,
-        visited: false,
-      },
-    ],
-  }));
-};
-
-export const editInput = ({ setState }) => async event => {
+export const editInput = ({ setInputValue }) => async event => {
   const { value } = event.target;
 
-  setState(state => ({
-    ...state,
-    inputValue: value,
-  }));
-
-  const response = await fetch(`/api/autocomplete?name=${value}`);
-  const suggestions = await response.json();
-
-  setState(state => ({
-    ...state,
-    suggestions,
-  }));
+  setInputValue(value);
 };
 
-export const toggleVisited = ({ setState }) => id => {
-  setState(state => {
-    const newPlaces = state.places.map(place => {
-      if (place.id !== id) {
-        return place;
-      }
-
-      return {
-        ...place,
-        visited: !place.visited,
-      };
-    });
-
-    return {
-      ...state,
-      places: newPlaces,
-    };
-  });
-};
+export const toggleVisited = props => id => {};
 
 export default compose(
   withStateEnhancer,
@@ -67,6 +18,5 @@ export default compose(
     addPlace,
     editInput,
     toggleVisited,
-  }),
-  flattenProp('state')
+  })
 );
