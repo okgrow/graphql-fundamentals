@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { MockList } from 'graphql-tools';
 
 const placeGenerator = () => ({
   id: faker.random.uuid(),
@@ -7,3 +8,12 @@ const placeGenerator = () => ({
   latitude: faker.address.latitude(),
   longitude: faker.address.longitude(),
 });
+
+const mocks = {
+  Place: () => placeGenerator(),
+  Query: () => ({
+    places: () => new MockList([1, 5]),
+  }),
+};
+
+export default mocks;
