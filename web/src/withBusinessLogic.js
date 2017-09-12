@@ -1,9 +1,33 @@
 import { withState, withHandlers, compose } from 'recompose';
 import { gql, graphql } from 'react-apollo';
 
+export const withCreatePlaceMutation = graphql(
+  gql`
+    mutation createPlace($input: CreatePlaceInput!) {
+      createPlace(input: $input) {
+        id
+        name
+        visited
+        longitude
+        latitude
+      }
+    }
+  `,
+  {
+    name: 'createPlaceMutation',
+    options: props => ({
+      refetchQueries: ['getPlaces'],
+    }),
+  }
+);
+
 export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
-export const addPlace = props => async placeId => {};
+export const addPlace = ({ createPlaceMutation }) => async placeId => {
+  await createPlaceMutation({
+    variables: { input: { placeId } },
+  });
+};
 
 export const editInput = ({ setInputValue }) => async event => {
   const { value } = event.target;
@@ -57,6 +81,7 @@ export const withSuggestionsData = graphql(
 
 export default compose(
   withPlacesData,
+  withCreatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
