@@ -34,6 +34,27 @@ export const withPlacesData = graphql(
   }
 );
 
+export const withSuggestionsData = graphql(
+  gql`
+    query runSearch($name: String) {
+      suggestions(name: $name) {
+        id
+        name
+      }
+    }
+  `,
+  {
+    options: props => ({
+      variables: { name: props.inputValue },
+    }),
+    props: ({ data }) => ({
+      suggestionsLoading: data.loading,
+      suggestionsError: data.error,
+      suggestions: data.suggestions,
+    }),
+  }
+);
+
 export default compose(
   withPlacesData,
   withStateEnhancer,
@@ -41,5 +62,6 @@ export default compose(
     addPlace,
     editInput,
     toggleVisited,
-  })
+  }),
+  withSuggestionsData
 );
