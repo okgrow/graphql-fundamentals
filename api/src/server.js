@@ -6,6 +6,7 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import typeDefs from './typeDefs';
 import mocks from './mocks';
+import resolvers from './resolvers';
 
 const { TOKEN } = process.env;
 const PORT = 8080;
@@ -15,14 +16,15 @@ server.use(cors());
 
 server.use(bodyParser.json());
 
-const schema = makeExecutableSchema({ typeDefs });
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-addMockFunctionsToSchema({ schema, mocks });
+addMockFunctionsToSchema({ schema, mocks, preserveResolvers: true });
 
 server.use(
   '/graphql',
   graphqlExpress(req => ({
     schema,
+    context: { TOKEN },
   }))
 );
 
@@ -32,23 +34,6 @@ server.use(
     endpointURL: '/graphql',
   })
 );
-
-server.use('/api/autocomplete', async (req, res) => {
-  const { name } = req.query;
-
-  const response = await fetch(
-    `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name}&key=${TOKEN}`
-  );
-
-  const { predictions } = await response.json();
-
-  return res.json(
-    predictions.map(({ description, place_id }) => ({
-      name: description,
-      id: place_id,
-    }))
-  );
-});
 
 server.use('/api/details', async (req, res) => {
   const { id } = req.query;
