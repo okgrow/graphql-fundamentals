@@ -1,5 +1,13 @@
 export default `
-type Query {
-  hello(who: String): String!
-}
+  type Place {
+    id: ID!
+    name: String!
+    visited: Boolean
+    latitude: Float
+    longitude: Float
+  }
+
+  type Query {
+    places: [Place]
+  }
 `;
