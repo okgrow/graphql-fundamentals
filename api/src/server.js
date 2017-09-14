@@ -7,6 +7,7 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
+import Place from './model';
 
 const { TOKEN } = process.env;
 const PORT = 8080;
@@ -15,7 +16,7 @@ const MONGO_URL = `mongodb://localhost:${MONGO_PORT}/database`;
 
 const startServer = async () => {
   // uncomment if a database is started
-  // const db = await MongoClient.connect(MONGO_URL);
+  const db = await MongoClient.connect(MONGO_URL);
 
   const server = express();
 
@@ -29,7 +30,10 @@ const startServer = async () => {
     '/graphql',
     graphqlExpress(req => ({
       schema,
-      context: { TOKEN },
+      context: {
+        TOKEN,
+        Place: new Place(db),
+      },
     }))
   );
 
