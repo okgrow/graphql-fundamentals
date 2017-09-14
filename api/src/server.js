@@ -29,6 +29,7 @@ const startServer = async () => {
     '/graphql',
     graphqlExpress(req => ({
       schema,
+      context: { TOKEN },
     }))
   );
 
