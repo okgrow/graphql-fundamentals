@@ -9,5 +9,6 @@ export default `
 
   type Query {
     places: [Place]
+    suggestions(name: String): [Place]
   }
 `;
