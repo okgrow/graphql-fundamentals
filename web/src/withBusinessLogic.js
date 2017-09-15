@@ -1,4 +1,5 @@
 import { withState, withHandlers, compose } from 'recompose';
+import { gql } from 'react-apollo';
 
 export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
@@ -11,6 +12,18 @@ export const editInput = ({ setInputValue }) => async event => {
 };
 
 export const toggleVisited = props => id => {};
+
+const getPlacesGraphQLDocument = gql`
+  query getPlaces {
+    places {
+      id
+      name
+      visited
+      latitude
+      longitude
+    }
+  }
+`;
 
 export default compose(
   withStateEnhancer,
