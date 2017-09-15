@@ -34,6 +34,18 @@ export const editInput = ({ setInputValue }) => async event => {
   setInputValue(value);
 };
 
+const updatePlaceMutation = `
+  mutation updatePlace($input: UpdatePlaceInput!) {
+    updatePlace(input: $input) {
+      id
+      name
+      visited
+      longitude
+      latitude
+    }
+  }
+`;
+
 export const toggleVisited = props => id => {};
 
 const getPlacesQuery = gql`
