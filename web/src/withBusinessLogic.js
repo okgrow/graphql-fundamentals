@@ -46,7 +46,17 @@ const updatePlaceGraphQLDocument = gql`
   }
 `;
 
-export const toggleVisited = props => id => {};
+export const withUpdatePlaceMutation = graphql(updatePlaceGraphQLDocument, {
+  name: 'updatePlaceMutation',
+});
+
+export const toggleVisited = ({ updatePlaceMutation, places }) => async id => {
+  const placeToVisit = places.find(place => place.id === id);
+
+  await updatePlaceMutation({
+    variables: { input: { id, visited: !placeToVisit.visited } },
+  });
+};
 
 const getPlacesGraphQLDocument = gql`
   query getPlaces {
@@ -91,6 +101,7 @@ export const withSuggestionsData = graphql(runSearchGraphQLDocument, {
 export default compose(
   withPlacesData,
   withCreatePlaceMutation,
+  withUpdatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
