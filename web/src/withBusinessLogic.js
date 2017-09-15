@@ -13,9 +13,20 @@ const createPlaceGraphQLDocument = gql`
   }
 `;
 
+export const withCreatePlaceMutation = graphql(createPlaceGraphQLDocument, {
+  name: 'createPlaceMutation',
+  options: props => ({
+    refetchQueries: ['getPlaces'],
+  }),
+});
+
 export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
-export const addPlace = props => async placeId => {};
+export const addPlace = ({ createPlaceMutation }) => async placeId => {
+  await createPlaceMutation({
+    variables: { input: { placeId } },
+  });
+};
 
 export const editInput = ({ setInputValue }) => async event => {
   const { value } = event.target;
@@ -67,6 +78,7 @@ export const withSuggestionsData = graphql(runSearchGraphQLDocument, {
 
 export default compose(
   withPlacesData,
+  withCreatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
