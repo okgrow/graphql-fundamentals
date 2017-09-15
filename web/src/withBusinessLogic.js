@@ -1,5 +1,5 @@
 import { withState, withHandlers, compose } from 'recompose';
-import { gql } from 'react-apollo';
+import { gql, graphql } from 'react-apollo';
 
 export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
@@ -25,7 +25,16 @@ const getPlacesGraphQLDocument = gql`
   }
 `;
 
+export const withPlacesData = graphql(getPlacesGraphQLDocument, {
+  props: ({ data }) => ({
+    placesLoading: data.loading,
+    placesError: data.error,
+    places: data.places || [],
+  }),
+});
+
 export default compose(
+  withPlacesData,
   withStateEnhancer,
   withHandlers({
     addPlace,
