@@ -12,6 +12,18 @@ export const editInput = ({ setInputValue }) => async event => {
 
 export const toggleVisited = props => id => {};
 
+const getPlacesQuery = `
+  query getPlaces {
+    places {
+      id
+      name
+      visited
+      latitude
+      longitude
+    }
+  }
+`;
+
 export default compose(
   withStateEnhancer,
   withHandlers({
