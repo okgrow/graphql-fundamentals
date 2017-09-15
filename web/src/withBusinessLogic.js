@@ -1,6 +1,18 @@
 import { withState, withHandlers, compose } from 'recompose';
 import { gql, graphql } from 'react-apollo';
 
+const createPlaceMutation = `
+  mutation createPlace($input: CreatePlaceInput!) {
+    createPlace(input: $input) {
+      id
+      name
+      visited
+      longitude
+      latitude
+    }
+  }
+`;
+
 export const withStateEnhancer = withState('inputValue', 'setInputValue', '');
 
 export const addPlace = props => async placeId => {};
