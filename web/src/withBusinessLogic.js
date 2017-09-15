@@ -33,6 +33,15 @@ export const withPlacesData = graphql(getPlacesQuery, {
   }),
 });
 
+const runSearchQuery = `
+  query runSearch($name: String) {
+    suggestions(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
 export default compose(
   withPlacesData,
   withStateEnhancer,
