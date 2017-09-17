@@ -34,7 +34,7 @@ export const editInput = ({ setInputValue }) => async event => {
   setInputValue(value);
 };
 
-const updatePlaceMutation = `
+const updatePlaceMutation = gql`
   mutation updatePlace($input: UpdatePlaceInput!) {
     updatePlace(input: $input) {
       id
@@ -46,7 +46,17 @@ const updatePlaceMutation = `
   }
 `;
 
-export const toggleVisited = props => id => {};
+export const withUpdatePlaceMutation = graphql(updatePlaceMutation, {
+  name: 'updatePlaceMutation',
+});
+
+export const toggleVisited = ({ updatePlaceMutation, places }) => async id => {
+  const placeToVisit = places.find(place => place.id === id);
+
+  await updatePlaceMutation({
+    variables: { input: { id, visited: !placeToVisit.visited } },
+  });
+};
 
 const getPlacesQuery = gql`
   query getPlaces {
@@ -91,6 +101,7 @@ export const withSuggestionsData = graphql(runSearchQuery, {
 export default compose(
   withPlacesData,
   withCreatePlaceMutation,
+  withUpdatePlaceMutation,
   withStateEnhancer,
   withHandlers({
     addPlace,
