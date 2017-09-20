@@ -7,6 +7,7 @@ export default `
 
   type Mutation {
     createPlace(input: CreatePlaceInput!): Place!
+    updatePlace(input: UpdatePlaceInput!): Place!
   }
 
   type Place {
@@ -30,5 +31,10 @@ export default `
 
   input CreatePlaceInput {
     address: String!
+  }
+
+  input UpdatePlaceInput {
+    id: ID!
+    visited: Boolean!
   }
 `;
