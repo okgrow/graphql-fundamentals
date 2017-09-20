@@ -2,6 +2,7 @@ export default `
   type Query {
     hello(who: String): String!
     places: [Place]
+    locationSuggestion(name: String): Location
   }
 
   type Place {
@@ -12,6 +13,7 @@ export default `
   }
 
   type Location {
+    formattedAddress: String!
     latitude: Float!
     longitude: Float!
     weather: Weather!
