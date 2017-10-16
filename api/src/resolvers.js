@@ -8,7 +8,7 @@ const mocks = [
 const resolvers = {
   Query: {
     hello: (root, args) => `Hello ${args.who || 'world'}!`,
-    // EX 1: add code here
+    places: () => mocks,
   },
 };
 
