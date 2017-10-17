@@ -31,7 +31,8 @@ const startServer = async () => {
       schema,
       context: {
         Place: new Place(db),
-        Location: new Location()
+        Location: new Location(),
+        Weather: new Weather()
       }
     }))
   );
