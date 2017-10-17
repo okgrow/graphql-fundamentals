@@ -8,9 +8,10 @@ import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import { Place, Location, Weather } from './model';
 
-const PORT = 8080;
-const MONGO_PORT = parseInt(PORT, 10) + 2;
-const MONGO_URL = `mongodb://localhost:${MONGO_PORT}/database`;
+const {
+  PORT = 8080,
+  MONGO_URL = 'mongodb://localhost:8082/database',
+} = process.env;
 
 const startServer = async () => {
   const db = await MongoClient.connect(MONGO_URL);
@@ -30,15 +31,16 @@ const startServer = async () => {
     graphqlExpress(req => ({
       schema,
       context: {
-        Place: new Place(db)
-      }
+        Place: new Place(db),
+        Location: new Location(),
+      },
     }))
   );
 
   server.use(
     '/graphiql',
     graphiqlExpress({
-      endpointURL: '/graphql'
+      endpointURL: '/graphql',
     })
   );
 
@@ -73,7 +75,7 @@ const seedDb = async ({ db, Place }) => {
   const seeds = [
     { name: 'San Francisco', visited: true },
     { name: 'Toronto', visited: true },
-    { name: 'Grand Canyon', visited: false }
+    { name: 'Grand Canyon', visited: false },
   ];
 
   for (const seed of seeds) {
