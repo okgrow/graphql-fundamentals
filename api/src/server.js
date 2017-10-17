@@ -30,7 +30,8 @@ const startServer = async () => {
     graphqlExpress(req => ({
       schema,
       context: {
-        Place: new Place(db)
+        Place: new Place(db),
+        Location: new Location()
       }
     }))
   );
