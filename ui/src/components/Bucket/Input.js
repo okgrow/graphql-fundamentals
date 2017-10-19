@@ -2,6 +2,7 @@ import React from 'react';
 import Autocomplete from 'react-autocomplete';
 import styled from 'styled-components';
 import { withState, withHandlers, compose } from 'recompose';
+import { gql, graphql } from 'react-apollo';
 
 const Input = ({
   setInputValue,
@@ -72,7 +73,7 @@ const withAddPlace = withHandlers({
   },
 });
 
-const runSearchQuery = `
+const runSearchQuery = gql`
   query runSearch($search: String) {
     locationSuggestion(name: $search) {
       formattedAddress
@@ -80,4 +81,12 @@ const runSearchQuery = `
   }
 `;
 
-export default compose(withInputState, withAddPlace)(Input);
+const withSuggestionsData = graphql(runSearchQuery, {
+  options: props => ({
+    variables: { search: props.inputValue },
+  }),
+});
+
+export default compose(withInputState, withAddPlace, withSuggestionsData)(
+  Input
+);
