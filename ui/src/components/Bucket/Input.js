@@ -67,7 +67,7 @@ const Item = styled.div`
 
 const withInputState = withState('inputValue', 'setInputValue', '');
 
-const createPlaceMutation = `
+const createPlaceMutation = gql`
   mutation createPlace($input: CreatePlaceInput!) {
     createPlace(input: $input) {
       id
@@ -77,9 +77,18 @@ const createPlaceMutation = `
   }
 `;
 
+const withCreatePlaceMutation = graphql(createPlaceMutation, {
+  options: props => ({
+    refetchQueries: ['getPlaces'],
+  }),
+});
+
 const withAddPlace = withHandlers({
   addPlace: props => async address => {
     // will call a mutation here
+    await props.mutate({ variables: { input: { address } } });
+
+    props.setInputValue('');
   },
 });
 
@@ -97,6 +106,9 @@ const withSuggestionsData = graphql(runSearchQuery, {
   }),
 });
 
-export default compose(withInputState, withAddPlace, withSuggestionsData)(
-  Input
-);
+export default compose(
+  withInputState,
+  withCreatePlaceMutation,
+  withAddPlace,
+  withSuggestionsData
+)(Input);
