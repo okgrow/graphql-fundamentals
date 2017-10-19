@@ -32,4 +32,22 @@ const App = ({ data: { places = [], loading, error } }) => (
   </div>
 );
 
+const getPlacesQuery = `
+  query getPlaces {
+    places {
+      id
+      name
+      visited
+      location {
+        latitude
+        longitude
+        weather {
+          icon
+          temperature
+        }
+      }
+    }
+  }
+`;
+
 export default App;
