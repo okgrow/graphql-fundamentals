@@ -72,4 +72,12 @@ const withAddPlace = withHandlers({
   },
 });
 
+const runSearchQuery = `
+  query runSearch($search: String) {
+    locationSuggestion(name: $search) {
+      formattedAddress
+    }
+  }
+`;
+
 export default compose(withInputState, withAddPlace)(Input);
