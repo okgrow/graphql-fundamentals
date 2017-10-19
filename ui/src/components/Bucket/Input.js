@@ -67,6 +67,16 @@ const Item = styled.div`
 
 const withInputState = withState('inputValue', 'setInputValue', '');
 
+const createPlaceMutation = `
+  mutation createPlace($input: CreatePlaceInput!) {
+    createPlace(input: $input) {
+      id
+      name
+      visited
+    }
+  }
+`;
+
 const withAddPlace = withHandlers({
   addPlace: props => async address => {
     // will call a mutation here
