@@ -74,6 +74,16 @@ const Item = styled.div`
   animation: ${fadeIn} ease 0.4s forwards;
 `;
 
+const updatePlaceMutation = `
+  mutation updatePlace($input: UpdatePlaceInput!) {
+    updatePlace(input: $input) {
+      id
+      name
+      visited
+    }
+  }
+`;
+
 const withToggleVisited = withHandlers({
   toggleVisited: props => placeId => {
     // call a mutation from the props
