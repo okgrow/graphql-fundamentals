@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { withHandlers, compose } from 'recompose';
+import { gql, graphql } from 'react-apollo';
 import Input from './Input';
 import Place from './Place';
 import Button from '../shared/Button';
@@ -74,7 +75,7 @@ const Item = styled.div`
   animation: ${fadeIn} ease 0.4s forwards;
 `;
 
-const updatePlaceMutation = `
+const updatePlaceMutation = gql`
   mutation updatePlace($input: UpdatePlaceInput!) {
     updatePlace(input: $input) {
       id
@@ -84,10 +85,16 @@ const updatePlaceMutation = `
   }
 `;
 
+const withUpdatePlaceMutation = graphql(updatePlaceMutation);
+
 const withToggleVisited = withHandlers({
-  toggleVisited: props => placeId => {
-    // call a mutation from the props
+  toggleVisited: ({ mutate, places }) => async id => {
+    const placeToVisit = places.find(place => place.id === id);
+
+    await mutate({
+      variables: { input: { id, visited: !placeToVisit.visited } },
+    });
   },
 });
 
-export default compose(withToggleVisited)(List);
+export default compose(withUpdatePlaceMutation, withToggleVisited)(List);
