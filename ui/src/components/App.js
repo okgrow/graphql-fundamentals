@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { gql, graphql } from 'react-apollo';
 import Home from './Home';
 import Bucket from './Bucket';
 import Map from './Map';
@@ -32,7 +33,7 @@ const App = ({ data: { places = [], loading, error } }) => (
   </div>
 );
 
-const getPlacesQuery = `
+const getPlacesQuery = gql`
   query getPlaces {
     places {
       id
@@ -50,4 +51,6 @@ const getPlacesQuery = `
   }
 `;
 
-export default App;
+const withPlaces = graphql(getPlacesQuery);
+
+export default withPlaces(App);
