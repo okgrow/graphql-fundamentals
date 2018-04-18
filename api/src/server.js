@@ -9,7 +9,7 @@ import resolvers from './resolvers';
 import { Place, Location, Weather } from './model';
 
 const PORT = 8080;
-const MONGO_PORT = parseInt(PORT, 10) + 2;
+const MONGO_PORT = 27017;
 const MONGO_URL = `mongodb://localhost:${MONGO_PORT}/database`;
 
 const startServer = async () => {
@@ -28,7 +28,11 @@ const startServer = async () => {
   server.use(
     '/graphql',
     graphqlExpress(req => ({
-      schema
+      schema,
+      context: {
+        Place: new Place(db),
+        Location: new Location()
+      }
     }))
   );
 

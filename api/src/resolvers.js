@@ -8,8 +8,12 @@ const mocks = [
 const resolvers = {
   Query: {
     hello: (root, args) => `Hello ${args.who || 'world'}!`,
+    places: (root, args,  {Place}) => Place.all({})
     // EX 1: add code here
   },
+  Place: {
+    location: (root, args, {Location}) => Location.get(root.name)
+  }
 };
 
 export default resolvers;
