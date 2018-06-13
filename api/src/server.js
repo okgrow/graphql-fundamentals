@@ -38,6 +38,7 @@ const initServer = async () => {
 
   const context = {
     Place: new Place(db),
+    Location: new Location(),
   };
 
   const playground = {
