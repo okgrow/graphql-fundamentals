@@ -14,5 +14,11 @@ export default `
   type Location {
     latitude: Float!
     longitude: Float!
+    weather: Weather!
+  }
+
+  type Weather {
+    icon: String!
+    temperature: Float!
   }
 `;
