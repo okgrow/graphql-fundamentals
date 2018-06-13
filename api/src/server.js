@@ -37,7 +37,7 @@ const initServer = async () => {
   await seedDb({ db, Place });
 
   const context = {
-    // place model instances here
+    Place: new Place(db),
   };
 
   const playground = {
