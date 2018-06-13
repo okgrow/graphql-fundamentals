@@ -32,6 +32,7 @@ const startServer = async () => {
       context: {
         Place: new Place(db),
         Location: new Location(),
+        Weather: new Weather(),
       },
     })),
   );
