@@ -5,7 +5,13 @@ import updatePlaceMutation from '../../../../graphql/updatePlaceMutation';
 import PlaceView from './PlaceView';
 
 const Place = ({ place }) => (
-  <Mutation key={place.id} mutation={updatePlaceMutation}>
+  <Mutation
+    key={place.id}
+    mutation={updatePlaceMutation}
+    optimisticResponse={{
+      updatePlace: { ...place, visited: !place.visited },
+    }}
+  >
     {updatePlace => {
       const toggleVisited = id => {
         updatePlace({
