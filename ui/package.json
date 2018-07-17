@@ -22,6 +22,7 @@
     "react-scripts": "1.1.4",
     "react-spinkit": "^3.0.0",
     "recompose": "^0.24.0",
+    "shortid": "^2.2.14",
     "styled-components": "^2.1.2"
   },
   "scripts": {

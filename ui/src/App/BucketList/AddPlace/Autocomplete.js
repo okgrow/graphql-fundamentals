@@ -1,6 +1,7 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
 import styled from 'styled-components';
+import shortid from 'shortid';
 
 const LocationAutocomplete = ({ suggestion, value, onChange, onSelect }) => (
   <Autocomplete
@@ -10,7 +11,9 @@ const LocationAutocomplete = ({ suggestion, value, onChange, onSelect }) => (
     getItemValue={item => item.formattedAddress}
     items={[suggestion]}
     renderItem={(item, isHighlighted) => (
-      <Item isHighlighted={isHighlighted}>{item.formattedAddress}</Item>
+      <Item key={shortid.generate()} isHighlighted={isHighlighted}>
+        {item.formattedAddress}
+      </Item>
     )}
     value={value}
     shouldItemRender={(item, value) => item && value}
