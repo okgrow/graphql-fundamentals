@@ -25,10 +25,25 @@ const AddPlace = () => (
       const addPlaceWithAddress = address =>
         addPlace({
           variables: { input: { address } },
+          optimisticResponse: {
+            createPlace: { ...optimisticResponseBase, name: address },
+          },
         });
       return <Input addPlace={addPlaceWithAddress} />;
     }}
   </Mutation>
 );
+
+const optimisticResponseBase = {
+  __typename: 'Place',
+  id: 'optimistic',
+  visited: false,
+  location: {
+    __typename: 'Location',
+    latitude: 0,
+    longitude: 0,
+    weather: { __typename: 'Weather', icon: '', temperature: null },
+  },
+};
 
 export default AddPlace;
