@@ -1,6 +1,7 @@
 import React from 'react';
+import { Query } from 'react-apollo';
 
-// import runSearchQuery from '../../../graphql/runSearchQuery';
+import runSearchQuery from '../../../graphql/runSearchQuery';
 import Autocomplete from './Autocomplete';
 
 const Input = class extends React.Component {
@@ -17,12 +18,22 @@ const Input = class extends React.Component {
 
   render() {
     return (
-      <Autocomplete
-        suggestion={''}
-        value={this.state.inputValue}
-        onChange={this.handleOnChange}
-        onSelect={this.handleOnSelect}
-      />
+      <Query
+        query={runSearchQuery}
+        variables={{ search: this.state.inputValue }}
+      >
+        {({ data }) => {
+          const { locationSuggestion } = data;
+          return (
+            <Autocomplete
+              suggestion={locationSuggestion}
+              value={this.state.inputValue}
+              onChange={this.handleOnChange}
+              onSelect={this.handleOnSelect}
+            />
+          );
+        }}
+      </Query>
     );
   }
 };
