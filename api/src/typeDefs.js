@@ -8,5 +8,11 @@ export default `
     id: ID!
     address: String!
     visited: Boolean!
+    location: Location!
+  }
+
+  type Location {
+    latitude: Float!
+    longitude: Float!
   }
 `;
