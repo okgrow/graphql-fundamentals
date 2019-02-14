@@ -5,6 +5,10 @@ export default `
     locationSuggestion(name: String): Location
   }
 
+  type Mutation {
+    createPlace(input: CreatePlaceInput!): Place!
+  }
+
   type Place {
     id: ID!
     address: String!
@@ -22,5 +26,9 @@ export default `
   type Weather {
     icon: String!
     temperature: Float!
+  }
+
+  input CreatePlaceInput {
+    address: String!
   }
 `;
