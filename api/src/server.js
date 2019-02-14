@@ -42,6 +42,7 @@ const initServer = async () => {
   const context = {
     Place: new Place(db),
     Location: new Location(),
+    Weather: new Weather(),
   };
 
   const playground = {
