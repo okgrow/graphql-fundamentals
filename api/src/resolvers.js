@@ -12,6 +12,20 @@ const resolvers = {
       return context.Weather.get({ latitude, longitude });
     },
   },
+  Mutation: {
+    createPlace: async (_, { input: { address } }, { Place }) => {
+      const doc = {
+        address,
+        visited: false,
+      };
+
+      const insertedId = await Place.insert(doc);
+
+      const newPlace = await Place.findOneById(insertedId);
+
+      return newPlace;
+    },
+  },
 };
 
 export default resolvers;
